@@ -1,6 +1,5 @@
-import { Entity, ObjectIdColumn, ObjectID, Column, Index, PrimaryGeneratedColumn } from "typeorm";
-
-const slugify = require('slugify')
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import slugify from 'slugify';
 
 @Entity('devices')
 export class Device {
@@ -22,7 +21,7 @@ export class Device {
     
     constructor(name: string, macaddress: string, description: string){
         this.name = name;
-        this.slug = slugify(this.name);
+        this.slug = slugify(this.name+this.id);
         this.macaddress = macaddress;
         this.description = description;
     }

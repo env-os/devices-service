@@ -10,7 +10,5 @@ export class CreateDeviceDto {
     readonly macaddress: string = "";
  
     @IsString()
-    readonly description: string = "";
- 
-   
+    readonly description: string = "";  
 }
