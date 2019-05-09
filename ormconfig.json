@@ -1,0 +1,24 @@
+{
+  "type": "mysql",
+  "host": "90.147.42.38",
+  "port": 3306,
+  "username": "",
+  "password": "",
+  "database": "envos",
+  "synchronize": true,
+  "logging": false,
+  "entities": [
+     "build/entity/**/*.js"
+  ],
+  "migrations": [
+     "src/migration/**/*.ts"
+  ],
+  "subscribers": [
+     "src/subscriber/**/*.ts"
+  ],
+  "cli": {
+     "entitiesDir": "src/entity",
+     "migrationsDir": "src/migration",
+     "subscribersDir": "src/subscriber"
+  }
+}
