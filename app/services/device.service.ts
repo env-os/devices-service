@@ -1,19 +1,11 @@
-import { getManager } from "typeorm";
-import { Device } from "../entities/device.entity";
+import { Service } from 'typedi';
+import { InjectRepository } from 'typeorm-typedi-extensions';
+import {DeviceRepository} from "../repositories/device.repository"
 
-export class DevicesService {
-    async create (name: string, macaddress: string, description: string){
-        const device = new Device(name, macaddress, description)
-        
-        let insert =  getManager().getRepository(Device).insert(device);
-    }
-
-    async delete(id: number) {
-        await getManager().getRepository(Device).delete({
-            id: id
-        })
-    }
-    async getAll(): Promise<Device[]> {
-        return await getManager().getRepository(Device).find();
-    }
+@Service()
+export class DeviceService {
+    constructor(
+        @InjectRepository()
+        private readonly devices: DeviceRepository,
+    ) {}
 }

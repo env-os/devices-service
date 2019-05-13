@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import slugify from 'slugify';
 
-@Entity('devices')
+@Entity('Devices')
 export class Device {
     @PrimaryGeneratedColumn()
     public id!: number;
