@@ -1,7 +1,6 @@
-
-import { IsString, IsIP } from "class-validator";
+import { IsString} from "class-validator";
  
-export class CreateDeviceDto {
+export class DeviceDto {
     
     @IsString()
     readonly name: string = "";
