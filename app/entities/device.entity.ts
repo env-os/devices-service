@@ -3,22 +3,25 @@ import slugify from 'slugify';
 
 @Entity('Devices')
 export class Device {
-    @PrimaryGeneratedColumn()
-    public id!: number;
+    @PrimaryGeneratedColumn('uuid')
+    public uuid!: string;
 
-    @Column()
+    @Column({ type:'varchar', length: 150, unique: true})
     public name: string;
 
-    @Column({ unique: true})
+    @Column({ type: 'varchar', length: 150, unique: true })
+    public slug: string;
+
+    @Column({ type: 'varchar', length: 17, unique: true })
     public macaddress: string;
 
-    @Column()
+    @Column({ type: 'text', nullable: true})
     public description: string;
 
     constructor(name: string, macaddress: string, description: string){
         this.name = name;
+        this.slug = slugify(String(this.name), {lower: true});
         this.macaddress = macaddress;
         this.description = description;
     }
-
 }

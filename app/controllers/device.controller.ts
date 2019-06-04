@@ -1,8 +1,9 @@
-import { JsonController, Get, Param, Post, Delete, Body, Res } from 'routing-controllers';
-import {Response} from 'express'
+import { JsonController, Get, Param, Post, Delete, Body, Res, OnUndefined, Req } from 'routing-controllers';
+import { Request } from 'express'
 import { DeviceService } from '../services/device.service';
 import { Device } from '../entities/device.entity';
 import { DeviceDto } from '../dto/device.dto';
+import { LogsUtil } from '../utils/logs.util';
 
 @JsonController('/devices')
 export class DeviceController {
@@ -11,24 +12,30 @@ export class DeviceController {
     ) {}
 
     @Post()
-    async create(@Body() deviceDto: DeviceDto, @Res() res: Response) {
-        const response = await this.deviceService.create(deviceDto);
-        return res.send(response);
+    @OnUndefined(201)
+    public async create(@Body() deviceDto: DeviceDto, @Req() req: Request): Promise<void> {
+        LogsUtil.logRequest(req);
+        await this.deviceService.create(deviceDto);
     }
 
-    @Delete('/:id')
-    async delete(@Param('id') id: number, @Res() res: Response) {
-        const response = await this.deviceService.delete(id);
-        return res.send(response);
-    }
-    
-    @Get('/:id')
-    async getOneById(@Param('id') id: number): Promise<Device>{
-        return await this.deviceService.getOneById(id);
+    @Delete('/:slug')
+    @OnUndefined(201)
+    public async delete(@Param('slug') slug: string, @Req() req: Request): Promise<void> {
+        LogsUtil.logRequest(req);
+        await this.deviceService.delete(slug);
     }
 
     @Get()
-    async getAll(): Promise<Device[]>{
+    @OnUndefined(404)
+    public async getAll(@Req() req: Request): Promise<Device[]> {
+        LogsUtil.logRequest(req);
         return await this.deviceService.getAll();
+    }
+
+    @Get('/:slug')
+    @OnUndefined(404)
+    public async getOneBySlug(@Param('slug') slug: string, @Req() req: Request): Promise<Device | undefined> {
+        LogsUtil.logRequest(req);
+        return await this.deviceService.getOneBySlug(slug);
     }
 }
