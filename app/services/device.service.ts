@@ -8,28 +8,31 @@ import { DeviceDto } from '../dto/device.dto'
 export class DeviceService {
     constructor(
         @InjectRepository()
-        private readonly devices: DeviceRepository,
+        private readonly deviceRepository: DeviceRepository,
     ) {}
 
-    async create(deviceDto: DeviceDto){
-        await this.devices.save(new Device(
+    async create(deviceDto: DeviceDto): Promise<void> {
+        await this.deviceRepository.create(new Device(
             deviceDto.name,
             deviceDto.macaddress,
-            deviceDto.description
-        ))
+            deviceDto.description,
+        ));
     }
 
-    async delete(id: number){
-        await this.devices.delete({
-            id: id
-        });
+    async delete(deviceSlug: string){
+        await this.deviceRepository.getOneBySlug(deviceSlug)
+        .then((device) => {
+            if(device != null){
+                this.deviceRepository.delete(device);
+            }
+        })
     }
 
-    async getAll(): Promise<Device[]>{
-        return await this.devices.find();
+    public async getOneBySlug(deviceSlug: string): Promise<Device | undefined> {
+        return await this.deviceRepository.getOneBySlug(deviceSlug);
     }
 
-    async getOneById(id: number): Promise<Device>{
-        return await this.devices.getOneById(id)
+    public async getAll(): Promise<Device[]> {
+        return await this.deviceRepository.getAll();
     }
 }
