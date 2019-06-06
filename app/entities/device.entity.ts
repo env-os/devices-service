@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import { Command } from "./command.entity"
 
 @Entity('Devices')
 export class Device {
@@ -17,11 +18,15 @@ export class Device {
     @Column({ type: 'text', nullable: true})
     public description: string;
 
-    constructor(uuid: string, name: string, macaddress: string, topic: string, description: string){
+    @OneToMany(type => Command, command => command.device)
+    public commands: Command[];
+
+    constructor(uuid: string, name: string, macaddress: string, topic: string, description: string, commands: Command[]){
         this.uuid = uuid;
         this.name = name;
         this.macaddress = macaddress;
         this.topic = topic;
         this.description = description;
+        this.commands = commands;
     }
 }
