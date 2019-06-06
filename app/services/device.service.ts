@@ -13,23 +13,21 @@ export class DeviceService {
 
     async create(deviceDto: DeviceDto): Promise<void> {
         await this.deviceRepository.create(new Device(
+            deviceDto.uuid,
             deviceDto.name,
             deviceDto.macaddress,
+            deviceDto.topic,
             deviceDto.description,
         ));
     }
 
-    async delete(deviceSlug: string){
-        await this.deviceRepository.getOneBySlug(deviceSlug)
-        .then((device) => {
-            if(device != null){
-                this.deviceRepository.delete(device);
-            }
-        })
+    async delete(uuid: string): Promise<void> {
+        await this.deviceRepository.getOneByUuid(uuid)
+        .then((device) => this.deviceRepository.delete(device));
     }
 
-    public async getOneBySlug(deviceSlug: string): Promise<Device | undefined> {
-        return await this.deviceRepository.getOneBySlug(deviceSlug);
+    public async getOneByUuid(uuid: string): Promise<Device> {
+        return await this.deviceRepository.getOneByUuid(uuid);
     }
 
     public async getAll(): Promise<Device[]> {
