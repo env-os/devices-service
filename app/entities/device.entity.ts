@@ -1,16 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import slugify from 'slugify';
+import { Entity, Column, PrimaryColumn } from "typeorm";
 
 @Entity('Devices')
 export class Device {
-    @PrimaryGeneratedColumn('uuid')
-    public uuid!: string;
+    @PrimaryColumn('uuid')
+    public uuid: string;
 
-    @Column({ type:'varchar', length: 150, unique: true})
+    @Column({ type:'varchar', length: 150 })
     public name: string;
-
-    @Column({ type: 'varchar', length: 150, unique: true })
-    public slug: string;
 
     @Column({ type: 'varchar', length: 17, unique: true })
     public macaddress: string;
@@ -18,9 +14,9 @@ export class Device {
     @Column({ type: 'text', nullable: true})
     public description: string;
 
-    constructor(name: string, macaddress: string, description: string){
+    constructor(uuid: string, name: string, macaddress: string, description: string){
+        this.uuid = uuid;
         this.name = name;
-        this.slug = slugify(String(this.name), {lower: true});
         this.macaddress = macaddress;
         this.description = description;
     }

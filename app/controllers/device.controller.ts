@@ -1,4 +1,4 @@
-import { JsonController, Get, Param, Post, Delete, Body, Res, OnUndefined, Req } from 'routing-controllers';
+import { JsonController, Get, Param, Post, Delete, Body, OnUndefined, Req, BadRequestError, NotFoundError } from 'routing-controllers';
 import { Request } from 'express'
 import { DeviceService } from '../services/device.service';
 import { Device } from '../entities/device.entity';
@@ -15,27 +15,39 @@ export class DeviceController {
     @OnUndefined(201)
     public async create(@Body() deviceDto: DeviceDto, @Req() req: Request): Promise<void> {
         LogsUtil.logRequest(req);
-        await this.deviceService.create(deviceDto);
+        await this.deviceService.create(deviceDto)
+        .catch(() => {
+            throw new BadRequestError("Error during device creation.");
+        })
     }
 
-    @Delete('/:slug')
+    @Delete('/:uuid')
     @OnUndefined(201)
-    public async delete(@Param('slug') slug: string, @Req() req: Request): Promise<void> {
+    public async delete(@Param('uuid') uuid: string, @Req() req: Request): Promise<void> {
         LogsUtil.logRequest(req);
-        await this.deviceService.delete(slug);
+        await this.deviceService.delete(uuid)
+        .catch(() => {
+            throw new BadRequestError();
+        })
     }
 
     @Get()
     @OnUndefined(404)
     public async getAll(@Req() req: Request): Promise<Device[]> {
         LogsUtil.logRequest(req);
-        return await this.deviceService.getAll();
+        return await this.deviceService.getAll()
+        .catch(() => {
+            throw new NotFoundError()
+        })
     }
 
-    @Get('/:slug')
+    @Get('/:uuid')
     @OnUndefined(404)
-    public async getOneBySlug(@Param('slug') slug: string, @Req() req: Request): Promise<Device | undefined> {
+    public async getOneByUuid(@Param('uuid') uuid: string, @Req() req: Request): Promise<Device> {
         LogsUtil.logRequest(req);
-        return await this.deviceService.getOneBySlug(slug);
+        return await this.deviceService.getOneByUuid(uuid)
+        .catch(() => {
+            throw new NotFoundError();
+        })
     }
 }
