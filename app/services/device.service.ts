@@ -16,6 +16,7 @@ export class DeviceService {
             deviceDto.uuid,
             deviceDto.name,
             deviceDto.macaddress,
+            deviceDto.topic,
             deviceDto.description,
         ));
     }
