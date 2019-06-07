@@ -4,7 +4,7 @@ import { Device } from "./device.entity";
 @Entity('Commands')
 export class Command {
     @PrimaryColumn("uuid")
-    public uuid!: string;
+    public uuid: string;
 
     @Column({ type: 'varchar', length: 150})
     public name: string;
@@ -12,7 +12,7 @@ export class Command {
     @Column({ type: 'varchar', length: 150, nullable: true })
     public description: string;
 
-    @ManyToOne(type => Device, device => device.commands)
+    @ManyToOne(type => Device, device => device.commands, {onDelete: 'CASCADE'})
     device: Device;
 
     constructor(uuid: string, name: string, description: string, device: Device){

@@ -18,7 +18,7 @@ export class Device {
     @Column({ type: 'text', nullable: true})
     public description: string;
 
-    @OneToMany(type => Command, command => command.device, {cascade: true})
+    @OneToMany(type => Command, command => command.device)
     public commands: Command[];
 
     constructor(uuid: string, name: string, macaddress: string, topic: string, description: string, commands: Command[]){

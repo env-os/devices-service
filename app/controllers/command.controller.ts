@@ -33,7 +33,7 @@ export class CommandController {
 
     @Get()
     @OnUndefined(404)
-    async getAllRoots(@Req() req: Request): Promise<Command[] | undefined> {
+    async getAll(@Req() req: Request): Promise<Command[]> {
         LogsUtil.logRequest(req);
         return await this.commandService.getAll()
         .catch(() => {
@@ -43,7 +43,7 @@ export class CommandController {
 
     @Get('/:uuid')
     @OnUndefined(404)
-    async getOneByUuid(@Param('uuid') uuid: string, @Req() req: Request): Promise<Command | undefined> {
+    async getOneByUuid(@Param('uuid') uuid: string, @Req() req: Request): Promise<Command> {
         LogsUtil.logRequest(req);
         return await this.commandService.getOneByUuid(uuid)
         .catch(() => {

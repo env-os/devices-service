@@ -30,11 +30,11 @@ export class CommandService {
         })
     }
 
-    public async getAll(): Promise<Command[] | undefined> {
+    public async getAll(): Promise<Command[]> {
         return await this.commandRepository.getAll()
     }
 
-    public async getOneByUuid(commandUuid: string): Promise<Command | undefined> {
+    public async getOneByUuid(commandUuid: string): Promise<Command> {
         return await this.commandRepository.getOneByUuid(commandUuid);
     }
 }

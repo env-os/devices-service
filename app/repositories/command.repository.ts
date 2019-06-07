@@ -12,19 +12,14 @@ export class CommandRepository extends AbstractRepository<Command> {
         await this.repository.remove(command);
     }
 
-    public async getAll(): Promise<Command[] | undefined> {
+    public async getAll(): Promise<Command[]> {
         return await this.repository.find()
     }
 
-    public async getOneByUuid(uuid: string): Promise<Command | undefined> {
-        return await this.repository.findOne({
+    public async getOneByUuid(uuid: string): Promise<Command> {
+        return await this.repository.findOneOrFail({
             where: {uuid: uuid},
-            join: {
-                alias: "command",
-                leftJoinAndSelect: {
-                    devices: "command.device",
-                }
-            },
+            relations: ['device'],
         })
     }
 }
