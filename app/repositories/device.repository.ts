@@ -15,6 +15,12 @@ export class DeviceRepository extends AbstractRepository<Device> {
     public async getOneByUuid(uuid: string): Promise<Device> {
         return await this.repository.findOneOrFail({
             where: {uuid: uuid},
+            join: {
+                alias: "device",
+                leftJoinAndSelect: {
+                    devices: "device.commands",
+                }
+            },
         })
     }
 
