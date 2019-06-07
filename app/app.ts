@@ -8,7 +8,7 @@ import { CommandController } from './controllers/command.controller';
 typeormUseContainer(Container)
 routingUseContainer(Container)
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const app = createExpressServer({
     controllers: [

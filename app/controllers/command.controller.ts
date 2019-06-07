@@ -21,11 +21,11 @@ export class CommandController {
         })
     }
 
-    @Delete('/:slug')
+    @Delete('/:uuid')
     @OnUndefined(201)
-    async delete(@Param('slug') slug: string, @Req() req: Request) {
+    async delete(@Param('uuid') uuid: string, @Req() req: Request) {
         LogsUtil.logRequest(req);
-        await this.commandService.delete(slug)
+        await this.commandService.delete(uuid)
         .catch(() => {
             throw new BadRequestError();
         })
@@ -41,11 +41,11 @@ export class CommandController {
         })
     }
 
-    @Get('/:slug')
+    @Get('/:uuid')
     @OnUndefined(404)
-    async getOneBySlug(@Param('slug') slug: string, @Req() req: Request): Promise<Command | undefined> {
+    async getOneByUuid(@Param('uuid') uuid: string, @Req() req: Request): Promise<Command | undefined> {
         LogsUtil.logRequest(req);
-        return await this.commandService.getOneBySlug(slug)
+        return await this.commandService.getOneByUuid(uuid)
         .catch(() => {
             throw new NotFoundError();
         })

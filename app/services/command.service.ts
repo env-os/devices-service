@@ -10,7 +10,6 @@ export class CommandService {
     constructor(
         @InjectRepository()
         private readonly commandRepository: CommandRepository,
-        private readonly deviceRepository: DeviceRepository,
     ) {}
 
     async create(commandDto: CommandDto){
@@ -22,8 +21,8 @@ export class CommandService {
         ));
     }
 
-    public async delete(commandSlug: string): Promise<void> {
-        await this.commandRepository.getOneBySlug(commandSlug)
+    public async delete(commandUuid: string): Promise<void> {
+        await this.commandRepository.getOneByUuid(commandUuid)
         .then((command) => {
             if(command != null){
                 this.commandRepository.delete(command);
@@ -35,7 +34,7 @@ export class CommandService {
         return await this.commandRepository.getAll()
     }
 
-    public async getOneBySlug(commandSlug: string): Promise<Command | undefined> {
-        return await this.commandRepository.getOneBySlug(commandSlug);
+    public async getOneByUuid(commandUuid: string): Promise<Command | undefined> {
+        return await this.commandRepository.getOneByUuid(commandUuid);
     }
 }
