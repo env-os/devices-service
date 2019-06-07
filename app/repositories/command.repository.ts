@@ -16,9 +16,9 @@ export class CommandRepository extends AbstractRepository<Command> {
         return await this.repository.find()
     }
 
-    public async getOneBySlug(slug: string): Promise<Command | undefined> {
+    public async getOneByUuid(uuid: string): Promise<Command | undefined> {
         return await this.repository.findOne({
-            where: {slug: slug},
+            where: {uuid: uuid},
             join: {
                 alias: "command",
                 leftJoinAndSelect: {
