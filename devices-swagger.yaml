@@ -1,0 +1,179 @@
+swagger: "2.0"
+info:
+  description: "Microservice che si occupa della gestione dei dispositivi [https://github.com/env-os/devices-service]"
+  version: "1.0.0"
+  title: "devices-service"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:3000"
+paths:
+  /devices:
+    post:
+      summary: "Aggiunge un nuovo dispositivo all'interno del database"
+      description: "Questa chiamata POST consente di creare una nuovo dispositivo all'interno del database."
+      operationId: "createDevice"
+      consumes:
+      - "application/json"
+      parameters: 
+      - in: "body"
+        name: "body"
+        description: "Aggiungere dispositivo all'interno di un database."
+        required: true
+        schema:
+          $ref: '#/definitions/Devices'
+      responses:
+        201:
+          description: Created
+        400:
+          description: "Il dispositivo non è stata creato"
+    
+    get:
+      summary: "Ricava le informazioni di tutti i dispositivi"
+      description: ""
+      operationId: "getAllDevice"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Devices'
+        404:
+          description: "All'interno del database non ci sono dispositivi"
+  
+  /devices/{uuid}:
+    get:
+      summary: "Ricava tutte le informazioni del dispositivo passando il suo l'uuid"
+      description: ""
+      operationId: "getDeviceByUuid"
+      parameters: 
+      - name: "uuid"
+        in: "path"
+        description: "uuid del dispositivo che si vuole visualizzare"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Devices'
+            
+    delete: 
+      summary: "Elimina un dispositivo dal database passando il suo uuid"
+      description: ""
+      operationId: "deleteDevice"
+      parameters: 
+      - name: "uuid"
+        in: "path"
+        description: "l'uuid del dispositivo che si vuole eliminare"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: OK
+        404:
+          description: "Il dispositivo inserito non esiste"
+  /commands:
+    post:
+      summary: "Aggiunge un nuovo comando all'interno del sistema"
+      description: "Questa chiamata POST consente di creare una nuovo comando all'interno del database."
+      operationId: "createCommand"
+      consumes:
+      - "application/json"
+      parameters: 
+      - in: "body"
+        name: "body"
+        description: "Aggiungere comando all'interno di un database."
+        required: true
+        schema:
+          $ref: '#/definitions/Commands'
+      responses:
+        201:
+          description: Created
+        400:
+          description: "Il comando non è stata creata"
+    get:
+      summary: "Ricava le informazioni di tutti i comandi"
+      description: ""
+      operationId: "getAllCommands"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Commands'
+        404:
+          description: "All'interno del database non ci sono aree"
+  
+  /commands/{uuid}:
+    get:
+      summary: "Ricava tutte le informazioni del comando passando il suo l'uuid"
+      description: ""
+      operationId: "getCommandByUuid"
+      parameters: 
+      - name: "uuid"
+        in: "path"
+        description: "uuid del command che si vuole visualizzare"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Commands'
+            
+    delete: 
+      summary: "Elimina un comando dal database passando il suo uuid"
+      description: ""
+      operationId: "deleteCommand"
+      parameters: 
+      - name: "uuid"
+        in: "path"
+        description: "l'uuid del comando che si vuole eliminare"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: OK
+        404:
+          description: "Il comando inserito non esiste"
+          
+
+definitions:
+  Devices:
+    type: object
+    properties:
+      uuid:
+        type: string
+        format: string
+      name:
+        type: string
+        format: string
+      description:
+        type: string
+        format: string
+      topic:
+        type: string
+        format: string
+      macaddress:
+        type: string
+        format: string
+      commands:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/Commands'
+  
+  Commands:
+    type: object
+    properties:
+      uuid:
+        type: string
+        format: string
+      name:
+        type: string
+        format: string
+      description:
+        type: string
+        format: string
+      device:
+        type: object
+        $ref: '#/definitions/Devices'
