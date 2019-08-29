@@ -18,15 +18,23 @@ export class Device {
     @Column({ type: 'text', nullable: true})
     public description: string;
 
+    @Column({ type: 'double precision'})
+    public valmax: number;
+
+    @Column({ type: 'double precision'})
+    public valmin: number;
+
     @OneToMany(type => Command, command => command.device)
     public commands: Command[];
 
-    constructor(uuid: string, name: string, macaddress: string, topic: string, description: string, commands: Command[]){
+    constructor(uuid: string, name: string, macaddress: string, topic: string, description: string, valmax: number, valmin: number, commands: Command[]){
         this.uuid = uuid;
         this.name = name;
         this.macaddress = macaddress;
         this.topic = topic;
         this.description = description;
+        this.valmax = valmax;
+        this.valmin = valmin;
         this.commands = commands;
     }
 }

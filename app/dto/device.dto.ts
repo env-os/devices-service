@@ -6,5 +6,7 @@ export class DeviceDto {
     readonly macaddress!: string;
     readonly topic!: string;
     readonly description!: string;  
+    readonly valmax!: number;
+    readonly valmin!: number;
     readonly commands!: Command[];
 }
