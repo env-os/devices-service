@@ -1,3 +1,4 @@
+
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import {DeviceRepository} from "../repositories/device.repository"
@@ -18,6 +19,8 @@ export class DeviceService {
             deviceDto.macaddress,
             deviceDto.topic,
             deviceDto.description,
+            deviceDto.valmax,
+            deviceDto.valmin,
             deviceDto.commands,
         ));
     }
