@@ -13,12 +13,7 @@ export class CommandService {
     ) {}
 
     async create(commandDto: CommandDto){
-        await this.commandRepository.create(new Command(
-            commandDto.uuid,
-            commandDto.name,
-            commandDto.description,
-            commandDto.device
-        ));
+        await this.commandRepository.create(commandDto);
     }
 
     public async delete(commandUuid: string): Promise<void> {
