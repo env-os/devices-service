@@ -13,16 +13,7 @@ export class DeviceService {
     ) {}
 
     async create(deviceDto: DeviceDto): Promise<void> {
-        await this.deviceRepository.create(new Device(
-            deviceDto.uuid,
-            deviceDto.name,
-            deviceDto.macaddress,
-            deviceDto.topic,
-            deviceDto.description,
-            deviceDto.valmax,
-            deviceDto.valmin,
-            deviceDto.commands,
-        ));
+        await this.deviceRepository.create(deviceDto);
     }
 
     async delete(uuid: string): Promise<void> {
